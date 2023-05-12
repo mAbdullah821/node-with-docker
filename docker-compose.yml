@@ -1,0 +1,33 @@
+version: '3'
+services:
+  node_app:
+    build:
+      context: .
+      dockerfile: Dockerfile2
+    container_name: node_app
+    ports:
+      - '8000:8000'
+    environment:
+      - PORT=8000
+      - MONGO_RECONNECT_COUNT=5
+      - MONGO_RECONNECT_EVERY=5
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:6.0.5
+    container_name: mongoDB
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin821
+    volumes:
+      - mongo-db:/data/db
+  redis:
+    image: redis:7.0.10
+    container_name: redis
+    volumes:
+      - redis-db:/data
+volumes:
+  mongo-db:
+  redis-db:
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+# docker-compose down -v

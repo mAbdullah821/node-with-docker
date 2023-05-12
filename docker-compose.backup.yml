@@ -1,0 +1,30 @@
+version: '3'
+services:
+  node_app10:
+    build:
+      context: .
+      dockerfile: Dockerfile2
+    ports:
+      - '8000:8000'
+    environment:
+      - HOME=my_home
+      - COLOR=blue
+      - PORT=8000
+    volumes:
+      - ./:/user/local/app
+      - /user/local/app/node_modules
+    env_file:
+      - ./.env
+    depends_on:
+      - node_app101
+  node_app101:
+    build:
+      context: .
+      dockerfile: Dockerfile2
+    ports:
+      - 8001:8001
+    volumes:
+      - ./:/user/local/app
+      - /user/local/app/node_modules
+    environment:
+      - PORT=8001

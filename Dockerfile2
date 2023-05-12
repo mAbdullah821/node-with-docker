@@ -1,0 +1,18 @@
+FROM node:19-slim
+# RUN npm install && npm cache clean --force
+
+# # for node_modules isolation, put it in the app's parent directory (/user/local)
+# WORKDIR /user/local
+# COPY package*.json .
+# ARG NODE_ENV
+# RUN if [ ${NODE_ENV} = 'production' ]; then npm install --only=production; else npm install; fi
+# ENV PATH=/user/local/node_modules/.bin:$PATH
+
+WORKDIR /user/local/app
+COPY package*.json .
+ARG NODE_ENV
+RUN if [ $NODE_ENV = 'production' ]; then npm install --only=production; else npm install; fi
+RUN npm cache clean --force
+COPY . .
+CMD ["npm", "run", "dev"]
+# docker run --name node_app -p 8000:8000 -v /$(pwd):/user/local/app -v exclude:/user/local/app/node_modules node_app

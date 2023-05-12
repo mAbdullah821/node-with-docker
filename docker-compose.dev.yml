@@ -1,0 +1,24 @@
+version: '3'
+services:
+  node_app:
+    build:
+      args:
+        - NODE_ENV='development'
+    command: npm run dev
+    environment:
+      - MONGO_IP=mongoDB
+      - MONGO_PORT=27017
+      - MONGO_USER=admin
+      - MONGO_PASSWORD=admin821
+      - REDIS_IP=redis
+      - REDIS_PORT=6379
+      - SESSION_SECRET=simpleSecret
+    volumes:
+      - ./:/user/local/app
+      - /user/local/app/node_modules
+  mongo:
+    ports:
+      - '27017:27017'
+  redis:
+    ports:
+      - '6379:6379'

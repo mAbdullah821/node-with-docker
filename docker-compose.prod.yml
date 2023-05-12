@@ -1,0 +1,7 @@
+version: '3'
+services:
+  node_app:
+    build:
+      args:
+        - NODE_ENV='production'
+    command: npm run start
